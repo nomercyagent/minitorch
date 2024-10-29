@@ -112,8 +112,10 @@ def test_sigmoid(a: float) -> None:
     assert sigmoid(a) <= 1
     assert_close(1 - sigmoid(a), sigmoid(-a))
     assert sigmoid(0) == 0.5
-    if a >= 0: assert sigmoid(a) >= 0.5
-    else: assert sigmoid(a) <= 0.5
+    if a >= 0:
+        assert sigmoid(a) >= 0.5
+    else:
+        assert sigmoid(a) <= 0.5
 
 
 @pytest.mark.task0_2
@@ -141,17 +143,17 @@ def test_distribute() -> None:
     :math:`z \times (x + y) = z \times x + z \times y`
     """
     # TODO: Implement for Task 0.2.
-    assert mul(2, add(3,4)) == mul(2,3) + mul(2,4)
+    assert mul(2, add(3, 4)) == mul(2, 3) + mul(2, 4)
 
 
 @pytest.mark.task0_2
 @given(small_floats, small_floats, small_floats)
-def test_other(x,y,z) -> None:
+def test_other(x, y, z) -> None:
     """
     Write a test that ensures some other property holds for your functions.
     """
     # TODO: Implement for Task 0.2.
-    assert_close(mul(x, add(y,z)), mul(x,y) + mul(x,z))
+    assert_close(mul(x, add(y, z)), mul(x, y) + mul(x, z))
 
 
 # ## Task 0.3  - Higher-order functions
