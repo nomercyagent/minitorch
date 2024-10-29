@@ -21,6 +21,7 @@ def id(x: float) -> float:
     # TODO: Implement for Task 0.1.
     return x
 
+
 def add(x: float, y: float) -> float:
     "$f(x, y) = x + y$"
     # TODO: Implement for Task 0.1.
@@ -44,6 +45,7 @@ def eq(x: float, y: float) -> float:
     # TODO: Implement for Task 0.1.
     return 1 if x == y else 0
 
+
 def max(x: float, y: float) -> float:
     "$f(x) =$ x if x is greater than y else y"
     # TODO: Implement for Task 0.1.
@@ -53,7 +55,7 @@ def max(x: float, y: float) -> float:
 def is_close(x: float, y: float) -> float:
     "$f(x) = |x - y| < 1e-2$"
     # TODO: Implement for Task 0.1.
-    return abs(x-y) < 1e-2
+    return abs(x - y) < 1e-2
 
 
 def sigmoid(x: float) -> float:
@@ -104,7 +106,7 @@ def log_back(x: float, d: float) -> float:
 def inv(x: float) -> float:
     "$f(x) = 1/x$"
     # TODO: Implement for Task 0.1.
-    return 1/x
+    return 1 / x
 
 
 def inv_back(x: float, d: float) -> float:
@@ -206,5 +208,4 @@ def sum(ls: Iterable[float]) -> float:
 
 def prod(ls: Iterable[float]) -> float:
     "Product of a list using `reduce` and `mul`."
-    # TODO: Implement for Task 0.3.
     return reduce(mul, 1)(ls)
