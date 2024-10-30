@@ -58,12 +58,18 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
         """
         # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        def _named_parameters(module, prefix=""):
+            for name, param in module._parameters.items():
+                yield prefix + name, param
+            for name, module in module._modules.items():
+                yield from _named_parameters(module, prefix + name + ".")
+
+        return dict(_named_parameters(self))
 
     def parameters(self) -> Sequence[Parameter]:
         "Enumerate over all the parameters of this module and its descendents."
         # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        return [value for key, value in self.named_parameters().items()]
 
     def add_parameter(self, k: str, v: Any) -> Parameter:
         """
