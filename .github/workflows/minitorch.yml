@@ -32,3 +32,4 @@ jobs:
         pytest tests -x -vv -m task0_1
         pytest tests -x -vv -m task0_2
         pytest tests -x -vv -m task0_3
+        pytest tests -x -m task0_4
