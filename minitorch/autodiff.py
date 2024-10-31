@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Any, Iterable, List, Tuple
+from copy import deepcopy
 
 from typing_extensions import Protocol
 
@@ -52,7 +53,6 @@ class Variable(Protocol):
     def chain_rule(self, d_output: Any) -> Iterable[Tuple["Variable", Any]]:
         pass
 
-
 def topological_sort(variable: Variable) -> Iterable[Variable]:
     """
     Computes the topological order of the computation graph.
@@ -64,7 +64,20 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
         Non-constant Variables in topological order starting from the right.
     """
     # TODO: Implement for Task 1.4.
-    raise NotImplementedError('Need to implement for Task 1.4')
+    visited = set()
+    order = []
+
+    def dfs(var: Variable):
+        if var.unique_id in visited:
+            return
+        visited.add(var.unique_id)
+        if var.history is not None:
+            for input_var in var.history.inputs:
+                dfs(input_var)
+        order.append(var)
+
+    dfs(variable)
+    return order
 
 
 def backpropagate(variable: Variable, deriv: Any) -> None:
@@ -79,7 +92,39 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
     # TODO: Implement for Task 1.4.
-    raise NotImplementedError('Need to implement for Task 1.4')
+    topo = topological_sort(variable)
+    node2deriv = {variable.unique_id: deriv}
+
+    for v in reversed(topo):
+        if v.unique_id not in node2deriv:
+            continue
+
+        curr_deriv = node2deriv[v.unique_id]
+        deriv = v.chain_rule(curr_deriv)
+        check_deriv = deepcopy(deriv)
+        print(list(check_deriv))
+
+        for child, d in deriv:
+            if child.is_leaf():
+                child.accumulate_derivative(d)
+            else:
+                if child.unique_id in node2deriv:
+                    node2deriv[child.unique_id] += d
+                else:
+                    node2deriv[child.unique_id] = d
+    # topologically_sorted_variables : Iterable[Variable] = topological_sort(variable)
+    # variables_with_derivs : Dict[int, Any] = {variable.unique_id: deriv}
+
+    # for var in topologically_sorted_variables:
+    #     if var.is_leaf():
+    #         var.accumulate_derivative(variables_with_derivs[var.unique_id])
+    #     else:
+    #         derivs_back = var.chain_rule(variables_with_derivs[var.unique_id])
+    #         for scalar, der in derivs_back:
+    #             if (scalar.unique_id in variables_with_derivs.keys()):
+    #                 variables_with_derivs[scalar.unique_id] += der
+    #             else:
+    #                 variables_with_derivs[scalar.unique_id] = der
 
 
 @dataclass

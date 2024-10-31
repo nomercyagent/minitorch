@@ -36,3 +36,5 @@ jobs:
         echo "Module 1"
         pytest tests -x -m task1_1
         pytest tests -x -m task1_2
+        pytest tests -x -m task1_3
+        pytest tests -x -m task1_4

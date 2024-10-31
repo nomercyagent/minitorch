@@ -106,6 +106,7 @@ def test_backprop1() -> None:
     # Example 1: F1(0, v)
     var = minitorch.Scalar(0)
     var2 = Function1.apply(0, var)
+    print(var2)
     var2.backward(d_output=5)
     assert var.derivative == 5
 
