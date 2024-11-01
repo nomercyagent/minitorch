@@ -97,7 +97,6 @@ def test_two_args(
 
 # See minitorch.testing for all of the functions checked.
 
-
 @given(small_scalars)
 @pytest.mark.task1_4
 @pytest.mark.parametrize("fn", one_arg)

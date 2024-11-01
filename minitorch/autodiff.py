@@ -102,8 +102,8 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
 
         curr_deriv = node2deriv[v.unique_id]
         deriv = v.chain_rule(curr_deriv)
-        check_deriv = deepcopy(deriv)
-        print(list(check_deriv))
+        # check_deriv = deepcopy(deriv)
+        # print(list(check_deriv))
 
         for child, d in deriv:
             if child.is_leaf():
