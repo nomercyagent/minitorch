@@ -44,7 +44,10 @@ def index_to_position(index: Index, strides: Strides) -> int:
     """
 
     # TODO: Implement for Task 2.1.
-    raise NotImplementedError('Need to implement for Task 2.1')
+    position = 0
+    for i, stride in zip(index, strides):
+        position += i * stride
+    return position
 
 
 def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
@@ -61,7 +64,13 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
 
     """
     # TODO: Implement for Task 2.1.
-    raise NotImplementedError('Need to implement for Task 2.1')
+    for i, s in enumerate(shape):
+        product = prod(shape[i:])
+        divisor = product / s
+        index = int(ordinal // divisor)
+
+        ordinal -= index * divisor
+        out_index[i] = index
 
 
 def broadcast_index(
@@ -102,7 +111,21 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
         IndexingError : if cannot broadcast
     """
     # TODO: Implement for Task 2.2.
-    raise NotImplementedError('Need to implement for Task 2.2')
+    len1, len2 = len(shape1), len(shape2)
+    if len1 < len2:
+        shape1 = (1,) * (len2 - len1) + shape1
+    elif len2 < len1:
+        shape2 = (1,) * (len1 - len2) + shape2
+
+    # Check for compatibility and compute the broadcasted shape
+    broadcasted_shape = []
+    for s1, s2 in zip(shape1, shape2):
+        if s1 == s2 or s1 == 1 or s2 == 1:
+            broadcasted_shape.append(max(s1, s2))
+        else:
+            raise IndexingError(f"Cannot broadcast shapes {shape1} and {shape2}")
+
+    return tuple(broadcasted_shape)
 
 
 def strides_from_shape(shape: UserShape) -> UserStrides:
@@ -228,7 +251,11 @@ class TensorData:
         ), f"Must give a position to each dimension. Shape: {self.shape} Order: {order}"
 
         # TODO: Implement for Task 2.1.
-        raise NotImplementedError('Need to implement for Task 2.1')
+        return TensorData(
+            self._storage,
+            tuple(self.shape[x] for x in order),
+            tuple(self.strides[x] for x in order),
+        )
 
     def to_string(self) -> str:
         s = ""
