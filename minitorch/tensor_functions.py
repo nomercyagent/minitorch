@@ -107,8 +107,8 @@ class Mul(Function):
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, Tensor]:
         # TODO: Implement for Task 2.4.
         (u, v) = ctx.saved_values
-        return tuple(grad_output.f.mul_zip(grad_output, u), 
-                grad_output.f.mul_zip(grad_output, v))
+        return tuple(grad_output.f.mul_zip(grad_output, u),
+                     grad_output.f.mul_zip(grad_output, v))
 
 
 class Sigmoid(Function):
@@ -195,7 +195,7 @@ class LT(Function):
     @staticmethod
     def forward(ctx: Context, a: Tensor, b: Tensor) -> Tensor:
         # TODO: Implement for Task 2.3.
-        return a.f.lt_zip(a,b)
+        return a.f.lt_zip(a, b)
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, Tensor]:
@@ -208,7 +208,7 @@ class EQ(Function):
     @staticmethod
     def forward(ctx: Context, a: Tensor, b: Tensor) -> Tensor:
         # TODO: Implement for Task 2.3.
-        return a.f.eq_zip(a,b)
+        return a.f.eq_zip(a, b)
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, Tensor]:
@@ -221,7 +221,7 @@ class IsClose(Function):
     @staticmethod
     def forward(ctx: Context, a: Tensor, b: Tensor) -> Tensor:
         # TODO: Implement for Task 2.3.
-        return a.f.is_close_zip(a,b)
+        return a.f.is_close_zip(a, b)
 
 
 class Permute(Function):

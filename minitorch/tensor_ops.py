@@ -341,7 +341,6 @@ def tensor_zip(
             ind = index_to_position(out_index, out_strides)
             out[ind] = fn(a_val, b_val)
 
-
     return _zip
 
 
@@ -377,7 +376,7 @@ def tensor_reduce(
             to_index(i, out_shape, out_index)
             # получаем позицию в storage
             ind = index_to_position(out_index, out_strides)
-            
+
             for j in range(a_shape[reduce_dim]):
                 # копируем многомерный индекс выходного массива
                 a_index = out_index.copy()
