@@ -378,7 +378,6 @@ def tensor_reduce(
             # получаем позицию в storage
             ind = index_to_position(out_index, out_strides)
             
-            # пока неясно
             for j in range(a_shape[reduce_dim]):
                 # копируем многомерный индекс выходного массива
                 a_index = out_index.copy()
