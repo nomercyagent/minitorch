@@ -65,11 +65,11 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
     """
     # TODO: Implement for Task 2.1.
     for i, s in enumerate(shape):
-        product = prod(shape[i:])
-        divisor = product / s
-        index = int(ordinal // divisor)
+        total_shape = prod(shape[i:])
+        reduced_shape = total_shape / s
+        index = int(ordinal // reduced_shape)
 
-        ordinal -= index * divisor
+        ordinal -= index * reduced_shape
         out_index[i] = index
 
 
@@ -92,8 +92,15 @@ def broadcast_index(
     Returns:
         None
     """
-    # TODO: Implement for Task 2.2.
-    raise NotImplementedError('Need to implement for Task 2.2')
+    # нужно проитерироваться по размеру малого массива
+    # если размер большего массива больше размера меньше массива по длине, то делаем сдвиг
+    # additional dimensions - это измерения, в которых стоит 1
+    shift = len(big_shape) - len(shape)
+    for i in range(len(shape)):
+        if shape[i] > 1:
+            out_index[i] = big_index[shift + i]
+        else:
+            out_index[i] = 0
 
 
 def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:

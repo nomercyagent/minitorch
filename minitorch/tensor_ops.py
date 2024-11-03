@@ -265,7 +265,20 @@ def tensor_map(
         in_strides: Strides,
     ) -> None:
         # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        in_index = np.arange(len(in_shape))
+        out_index = np.arange(len(out_shape))
+
+        for i in range(len(out)):
+            # записываем каждый индекс как array-like объект, сохраняем в out_index
+            to_index(i, out_shape, out_index)
+            # учитываем, что in_shape меньше out_shape, применяем broadcast
+            # in_index перезаписан
+            broadcast_index(out_index, out_shape, in_shape, in_index)
+
+            # получаем значение в in_storage
+            val = in_storage[index_to_position(in_index, in_strides)]
+            ind = index_to_position(out_index, out_strides)
+            out[ind] = fn(val)
 
     return _map
 
@@ -310,7 +323,24 @@ def tensor_zip(
         b_strides: Strides,
     ) -> None:
         # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        out_index = np.arange(len(out_shape))
+        a_index = np.arange(len(a_shape))
+        b_index = np.arange(len(b_shape))
+
+        for i in range(len(out)):
+            # получаем index out объекта как array-like object
+            to_index(i, out_shape, out_index)
+            # теперь out_index обозначает элементы в привычном виде массива
+            broadcast_index(out_index, out_shape, a_shape, a_index)
+            # заполнили a_index
+            broadcast_index(out_index, out_shape, b_shape, b_index)
+            # заполнили b_index
+
+            a_val = a_storage[index_to_position(a_index, a_strides)]
+            b_val = b_storage[index_to_position(b_index, b_strides)]
+            ind = index_to_position(out_index, out_strides)
+            out[ind] = fn(a_val, b_val)
+
 
     return _zip
 
@@ -341,7 +371,22 @@ def tensor_reduce(
         reduce_dim: int,
     ) -> None:
         # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        out_index = np.arange(len(out_shape))
+        for i in range(len(out)):
+            # получаем индекс в многомерном массиве
+            to_index(i, out_shape, out_index)
+            # получаем позицию в storage
+            ind = index_to_position(out_index, out_strides)
+            
+            # пока неясно
+            for j in range(a_shape[reduce_dim]):
+                # копируем многомерный индекс выходного массива
+                a_index = out_index.copy()
+                a_index[reduce_dim] = j
+
+                out[ind] = fn(
+                    a_storage[index_to_position(a_index, a_strides)], out[ind]
+                )
 
     return _reduce
 
